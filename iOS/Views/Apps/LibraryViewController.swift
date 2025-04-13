@@ -39,9 +39,9 @@ class LibraryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupSearchController()
+        configureSearchBar()
         fetchSources()
-        loaderAlert = presentLoader()
+        loaderAlert = createLoaderAlert()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -633,20 +633,15 @@ extension LibraryViewController {
                             }
                         }
                     )
-            }
+                }
         } else {
             showNoCertificatesAlert()
         }
     }
     
-    private func showNoCertificatesAlert() {
-        let alert = UIAlertController(
-            title: String.localized("APP_SIGNING_VIEW_CONTROLLER_NO_CERTS_ALERT_TITLE"),
-            message: String.localized("APP_SIGNING_VIEW_CONTROLLER_NO_CERTS_ALERT_DESCRIPTION"),
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: String.localized("LAME"), style: .default))
-        present(alert, animated: true)
+    // Method moved to LibraryViewController+UIActions.swift
+    private func showCertificatesAlert() {
+        showNoCertificatesAlert()
     }
     
     private func handleDownloadedAppAction(
