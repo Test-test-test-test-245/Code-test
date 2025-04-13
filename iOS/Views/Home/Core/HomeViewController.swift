@@ -73,7 +73,7 @@ class HomeViewController: UIViewController, UISearchResultsUpdating, UIDocumentP
         let uploadButton = UIBarButtonItem(customView: HomeViewUI.uploadButton)
         let addButton = UIBarButtonItem(image: UIImage(systemName: "folder.badge.plus"), style: .plain, target: self, action: #selector(addDirectory))
 
-        HomeViewUI.uploadButton.addTarget(self, action: #selector(importFile), for: .touchUpInside)
+        HomeViewUI.uploadButton.addTarget(self, action: #selector(performFileImport), for: .touchUpInside)
         HomeViewUI.uploadButton.addGradientBackground()
         navItem.rightBarButtonItems = [menuButton, uploadButton, addButton]
         HomeViewUI.navigationBar.setItems([navItem], animated: false)

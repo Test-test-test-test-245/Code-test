@@ -435,8 +435,9 @@ class TerminalViewController: UIViewController {
                     self.isExecuting = false
                     
                     switch result {
-                    case .success(let output):
-                        self.appendToTerminal(output, isInput: false)
+                    case .success:
+                        // Result is Void, no output to display from HTTP mode
+                        break
                     case .failure(let error):
                         self.appendToTerminal("Error: \(error.localizedDescription)", isInput: false)
                     }
@@ -640,13 +641,16 @@ class TerminalViewController: UIViewController {
             self.logger.log(message: "Fetching WebDAV credentials for session \(sessionId)", type: .info)
             
             // Get base URL from TerminalService
-            guard let baseURL = TerminalService.shared.baseURL else {
+            let serverBaseURL: String
+            if let baseURL = TerminalService.shared.baseURL {
+                serverBaseURL = baseURL
+            } else {
                 completion(.failure(NSError(domain: "terminal", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid server URL"])))
                 return
             }
             
             // Create URL for WebDAV credentials
-            guard let url = URL(string: "\(baseURL)/api/webdav/credentials?session_id=\(sessionId)") else {
+            guard let url = URL(string: "\(serverBaseURL)/api/webdav/credentials?session_id=\(sessionId)") else {
                 completion(.failure(NSError(domain: "terminal", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid URL for WebDAV credentials"])))
                 return
             }
